@@ -1,14 +1,10 @@
-import pytest
-
 from src.category import Category
 from src.products import Product
 
 
-def test_category_init() -> None:
+def test_category_init(phone: Product, laptop: Product) -> None:
     """Проверка корректности инициализации объекта Category"""
-    product1 = Product("Телефон", "Смартфон", 50000.0, 10)
-    product2 = Product("Ноутбук", "Игровой", 100000.0, 5)
-    category = Category("Электроника", "Техника", [product1, product2])
+    category = Category("Электроника", "Техника", [phone, laptop])
 
     assert category.name == "Электроника"
     assert category.description == "Техника"
@@ -16,10 +12,9 @@ def test_category_init() -> None:
     assert isinstance(category.products[0], Product)
 
 
-def test_category_attributes_types() -> None:
+def test_category_attributes_types(phone: Product) -> None:
     """Проверка типов атрибутов Category"""
-    product = Product("Телефон", "Смартфон", 50000.0, 10)
-    category = Category("Электроника", "Техника", [product])
+    category = Category("Электроника", "Техника", [phone])
 
     assert isinstance(category.name, str)
     assert isinstance(category.description, str)
@@ -34,13 +29,10 @@ def test_category_count() -> None:
     assert Category.category_count == initial_count + 1
 
 
-def test_product_count() -> None:
+def test_product_count(phone: Product, laptop: Product) -> None:
     """Проверка подсчета количества продуктов"""
     initial_count = Category.product_count
-    product1 = Product("Телефон", "Смартфон", 50000.0, 10)
-    product2 = Product("Ноутбук", "Игровой", 100000.0, 5)
-    _ = Category("Электроника", "Техника", [product1, product2])
-
+    _ = Category("Электроника", "Техника", [phone, laptop])
     assert Category.product_count == initial_count + 2
 
 

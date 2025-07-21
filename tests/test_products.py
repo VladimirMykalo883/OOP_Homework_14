@@ -1,14 +1,17 @@
-def test_product_init(sample_product):
+from src.products import Product
+
+
+def test_product_init(phone: Product):
     """Проверка корректности инициализации объекта Product"""
-    assert sample_product.name == "Телефон"
-    assert sample_product.description == "Смартфон"
-    assert sample_product.price == 50000.0
-    assert sample_product.quantity == 10
+    assert phone.name == "Телефон"
+    assert phone.description == "Смартфон"
+    assert phone.price == 50000.0
+    assert phone.quantity == 10
 
 
-def test_product_attributes_types(sample_product):
+def test_product_attributes_types(phone: Product):
     """Проверка типов атрибутов Product"""
-    assert isinstance(sample_product.name, str)
-    assert isinstance(sample_product.description, str)
-    assert isinstance(sample_product.price, float)
-    assert isinstance(sample_product.quantity, int)
+    assert isinstance(phone.name, str)
+    assert isinstance(phone.description, str)
+    assert isinstance(phone.price, float)
+    assert isinstance(phone.quantity, int)
