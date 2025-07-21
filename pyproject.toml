@@ -28,11 +28,12 @@ packages = [{include = "homwork", from = "src"}]
 pytest = "^8.4.1"
 pytest-mock = "^3.14.1"
 pytest-cov = "^6.2.1"
-flake8 = "^7.2.0"
-black = "^25.1.0"
-isort = "^6.0.1"
-mypy = "^1.16.1"
-
+requests = "^2.32.4,<3.0.0)"
+pandas = "^2.3.0,<3.0.0"
+python-dotenv = "^1.1.0,<2.0.0"
+types-requests = "^2.32.4.20250611,<3.0.0.0"
+openpyxl = "^3.1.5,<4.0.0"
+pytest = "^8.4.1,<9.0.0"
 
 [tool.poetry.group.lint.dependencies]
 black = "^25.1.0"
