@@ -11,12 +11,12 @@ class Category:
     Атрибуты экземпляра:
         name (str): Название категории
         description (str): Описание категории
-        products (List[Product]): Список продуктов в категории
+        __products (List[Product]): Приватный список продуктов в категории
     """
 
     name: str
     description: str
-    products: list
+    __products: list
     category_count: int
     product_count: int
 
@@ -33,8 +33,21 @@ class Category:
         """
         self.name = name
         self.description = description
-        self.products = products
+        self.__products = products
 
         # Обновляем атрибуты класса
         Category.category_count += 1
         Category.product_count += len(products)
+
+    def add_product(self, product: Product) -> None:
+        """Добавляет продукт в категорию."""
+        self.__products.append(product)
+        Category.product_count += 1
+
+    @property
+    def products(self) -> str:
+        """Возвращает список товаров в виде строки в заданном формате."""
+        products_list = []
+        for product in self.__products:
+            products_list.append(f"{product.name}, {int(product.price)} руб. Остаток: {product.quantity} шт.")
+        return "\n".join(products_list)
