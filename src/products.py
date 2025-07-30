@@ -1,3 +1,6 @@
+"""ДЗ 16_1"""
+
+
 class Product:
     """Класс продукт представление продуктов.
     Атрибуты:
@@ -32,6 +35,11 @@ class Product:
         """Геттер для цены. Возвращает текущую цену."""
         return self.__price
 
+#    @property
+#    def products(self) -> str:
+#        """Возвращает список товаров в виде строки в заданном формате."""
+#        return "\n".join(str(product) for product in self.__products)
+
     @price.setter
     def price(self, new_price: float) -> None:
         if new_price <= 0:
@@ -48,7 +56,7 @@ class Product:
             print(f"Цена успешно изменена на {new_price}")
 
     @classmethod
-    def new_product(cls, product_data: dict, products: list["Product"] = None) -> "Product":
+    def new_product(cls, product_data: dict, products: list["Product"] | None = None) -> "Product":
         """
         Создает новый объект класса Product из словаря с данными.
         Если товар с таким именем уже существует:
@@ -87,3 +95,11 @@ class Product:
             price=product_data["price"],
             quantity=product_data["quantity"],
         )
+
+    def __str__(self) -> str:
+        return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: "Product") -> float:
+        if not isinstance(other, Product):
+            raise TypeError("Можно складывать только объекты Product")
+        return (self.price * self.quantity) + (other.price * other.quantity)

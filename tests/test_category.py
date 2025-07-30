@@ -1,3 +1,4 @@
+''' ДЗ_16_1'''
 from unittest.mock import patch
 
 from src.category import Category

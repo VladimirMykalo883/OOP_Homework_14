@@ -1,3 +1,4 @@
+''' ДЗ_16_1'''
 import pytest
 
 from src.category import Category
