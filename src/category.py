@@ -1,3 +1,5 @@
+"""ДЗ_15_1"""
+
 from src.products import Product
 
 
@@ -51,3 +53,7 @@ class Category:
         for product in self.__products:
             products_list.append(f"{product.name}, {int(product.price)} руб. Остаток: {product.quantity} шт.")
         return "\n".join(products_list)
+
+    def __str__(self) -> str:
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."

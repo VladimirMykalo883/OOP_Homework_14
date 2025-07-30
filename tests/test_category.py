@@ -75,3 +75,10 @@ def test_add_product_updates_counters() -> None:
 
     category.add_product(product)
     assert Category.product_count == initial_count + 1
+
+
+def test_category_str(phone: Product, laptop: Product):
+    """Проверка строкового представления Category"""
+    category = Category("Тест", "Тестовая категория", [phone, laptop])
+    expected = "Тест, количество продуктов: 15 шт."  # 10 + 5
+    assert str(category) == expected
