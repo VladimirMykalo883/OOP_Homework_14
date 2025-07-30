@@ -1,5 +1,7 @@
 from unittest.mock import patch
 
+import pytest
+
 from src.products import Product
 
 
@@ -78,3 +80,22 @@ def test_price_setter_output(capsys, phone: Product):
     phone.price = -1000
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
+
+
+def test_product_str(phone: Product):
+    """Проверка строкового представления Product"""
+    expected = "Телефон, 50000 руб. Остаток: 10 шт."
+    assert str(phone) == expected
+
+
+def test_product_addition(phone: Product, laptop: Product):
+    """Проверка сложения продуктов"""
+    total = phone + laptop
+    expected = (phone.price * phone.quantity) + (laptop.price * laptop.quantity)
+    assert total == expected
+
+
+def test_product_addition_type_error(phone: Product):
+    """Проверка TypeError при сложении с не-Product"""
+    with pytest.raises(TypeError):
+        _ = phone + 100
