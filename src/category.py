@@ -1,5 +1,5 @@
 """ДЗ_16_1"""
-from src.category import Category
+#from src.category import Category
 from src.base import BaseClass
 from src.products import Product
 

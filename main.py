@@ -1,7 +1,7 @@
 """ДЗ 16_1"""
 
 from src.category import Category
-from src.products import Smartphone, LawnGrass
+from src.products import Product, Smartphone, LawnGrass
 
 #
 # if __name__ == "__main__":

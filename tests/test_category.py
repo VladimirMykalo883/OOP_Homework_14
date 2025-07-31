@@ -1,8 +1,8 @@
 ''' ДЗ_16_1'''
 from unittest.mock import patch
-
+import pytest
 from src.category import Category
-from src.products import Product
+from src.products import Product,LawnGrass
 
 
 def test_category_init(phone: Product, laptop: Product) -> None:
@@ -76,3 +76,29 @@ def test_add_product_updates_counters() -> None:
 
     category.add_product(product)
     assert Category.product_count == initial_count + 1
+
+
+def test_add_product_type_check(phone):
+    """Тест проверки типа при добавлении продукта"""
+    category = Category("Test", "Test", [])
+
+    # Должен работать с Product и наследниками
+    category.add_product(phone)
+    assert len(category.products.split("\n")) == 1
+
+    # Не должен работать с другими типами
+    with pytest.raises(TypeError):
+        category.add_product("Not a product")
+
+    with pytest.raises(TypeError):
+        category.add_product(123)
+
+
+def test_category_with_different_products(phone):
+    """Тест работы категории с разными типами продуктов"""
+    grass = LawnGrass("Grass", "Green", 20, 100, "USA", "14d", "Green")
+    category = Category("Mixed", "Category", [phone, grass])
+
+    assert len(category.products.split("\n")) == 2
+    assert "Телефон" in category.products
+    assert "Grass" in category.products
