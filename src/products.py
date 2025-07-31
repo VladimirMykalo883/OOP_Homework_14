@@ -1,5 +1,7 @@
 """ДЗ 16_1"""
+
 from src.base import LogMixin
+
 
 class Product(LogMixin):
     """Класс продукт представление продуктов.
@@ -34,11 +36,6 @@ class Product(LogMixin):
     def price(self) -> float:
         """Геттер для цены. Возвращает текущую цену."""
         return self.__price
-
-#    @property
-#    def products(self) -> str:
-#        """Возвращает список товаров в виде строки в заданном формате."""
-#        return "\n".join(str(product) for product in self.__products)
 
     @price.setter
     def price(self, new_price: float) -> None:
@@ -104,28 +101,28 @@ class Product(LogMixin):
             raise TypeError("Можно складывать только объекты Product")
         return (self.price * self.quantity) + (other.price * other.quantity)
 
-#class LogMixin:
-#    """Миксин для логирования создания объектов"""
-#    def __init__(self, *args, **kwargs):
-#        print(f"Создан объект {self.__class__.__name__} с параметрами:")
-#        params = []
-#        for name, value in self.__dict__.items():
-#            if not name.startswith('_'):
-#                params.append(f"{name}={value}")
-#        print(", ".join(params))
-#        super().__init__(*args, **kwargs)
 
 class Smartphone(Product):
     """Класс для представления смартфонов"""
-    def __init__(self, name: str, description: str, price: float, quantity: int,
-                 efficiency: str, model: str, memory: str, color: str):
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
         self.efficiency = efficiency
         self.model = model
         self.memory = memory
         self.color = color
         super().__init__(name, description, price, quantity)
 
-    def __add__(self, other):
+    def __add__(self, other: "Smartphone") -> float:
         if not isinstance(other, Smartphone):
             raise TypeError("Можно складывать только объекты Smartphone")
         return super().__add__(other)
@@ -133,14 +130,23 @@ class Smartphone(Product):
 
 class LawnGrass(Product):
     """Класс для представления газонной травы"""
-    def __init__(self, name: str, description: str, price: float, quantity: int,
-                 country: str, germination_period: str, color: str):
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
         self.country = country
         self.germination_period = germination_period
         self.color = color
         super().__init__(name, description, price, quantity)
 
-    def __add__(self, other):
+    def __add__(self, other: "LawnGrass") -> float:
         if not isinstance(other, LawnGrass):
             raise TypeError("Можно складывать только объекты LawnGrass")
         return super().__add__(other)

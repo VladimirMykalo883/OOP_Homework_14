@@ -1,11 +1,12 @@
 """ДЗ_16_1"""
-#from src.category import Category
+
 from src.base import BaseClass
 from src.products import Product
 
 
 class Category(BaseClass):
     """Класс категории товаров"""
+
     """Класс для представления категории товаров.
 
     Атрибуты класса:
@@ -27,7 +28,7 @@ class Category(BaseClass):
     category_count = 0
     product_count = 0
 
-    def __init__(self, name: str, description: str, products: list[Product]):
+    def __init__(self, name: str, description: str, products: list[Product]) -> None:
         """
         Инициализация объекта Category.
         Args:

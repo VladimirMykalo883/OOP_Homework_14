@@ -1,8 +1,11 @@
-''' ДЗ_16_1'''
+"""ДЗ_16_1"""
+
 from unittest.mock import patch
+
 import pytest
+
 from src.category import Category
-from src.products import Product,LawnGrass
+from src.products import LawnGrass, Product
 
 
 def test_category_init(phone: Product, laptop: Product) -> None:
