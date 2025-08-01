@@ -1,4 +1,9 @@
-class Product:
+"""ДЗ 16_1"""
+
+from src.base import LogMixin
+
+
+class Product(LogMixin):
     """Класс продукт представление продуктов.
     Атрибуты:
         name (str): Название продукта
@@ -48,7 +53,7 @@ class Product:
             print(f"Цена успешно изменена на {new_price}")
 
     @classmethod
-    def new_product(cls, product_data: dict, products: list["Product"] = None) -> "Product":
+    def new_product(cls, product_data: dict, products: list["Product"] | None = None) -> "Product":
         """
         Создает новый объект класса Product из словаря с данными.
         Если товар с таким именем уже существует:
@@ -87,3 +92,51 @@ class Product:
             price=product_data["price"],
             quantity=product_data["quantity"],
         )
+
+    def __str__(self) -> str:
+        return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: "Product") -> float:
+        if type(self) is not type(other):  # Исправлено на is not вместо !=
+            raise TypeError("Можно складывать только объекты одинаковых классов")
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
+
+class Smartphone(Product):
+    """Класс для представления смартфонов"""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+        super().__init__(name, description, price, quantity)
+
+
+class LawnGrass(Product):
+    """Класс для представления газонной травы"""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
+        super().__init__(name, description, price, quantity)
