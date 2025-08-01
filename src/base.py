@@ -20,8 +20,9 @@ class BaseClass(ABC):
 
     @abstractmethod
     def __init__(self) -> None:
-        self.name = ""
-        self.description = ""
+        #        self.name = ""
+        #        self.description = ""
+        pass
 
     @abstractmethod
     def __str__(self) -> str:

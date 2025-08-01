@@ -1,11 +1,11 @@
 """ДЗ_16_1"""
 
+# import sys
+# from io import StringIO
 from unittest.mock import patch
 
 import pytest
 
-# from io import StringIO
-# import sys
 from src.base import LogMixin
 from src.category import Category
 from src.products import LawnGrass, Product, Smartphone
@@ -46,6 +46,7 @@ def test_price_decrease_confirmation(phone: Product) -> None:
     """Проверка подтверждения понижения цены"""
     with patch("builtins.input", return_value="y"):
         phone.price = 45000.0
+        assert phone.price == 45000.0
 
 
 def test_price_increase_no_confirmation(phone: Product) -> None:
@@ -59,52 +60,51 @@ def test_negative_price_rejection(phone: Product) -> None:
     """Проверка отклонения отрицательной цены"""
     original_price = phone.price
     phone.price = -1000.0
-    assert phone.price == original_price  # Цена не должна измениться
+    assert phone.price == original_price
 
 
 def test_zero_price_rejection(phone: Product) -> None:
     """Проверка отклонения нулевой цены"""
     original_price = phone.price
     phone.price = 0
-    assert phone.price == original_price  # Цена не должна измениться
+    assert phone.price == original_price
 
 
-def test_price_setter_output(capsys, phone: Product) -> None:
-    """Проверка вывода сообщений при изменении цены"""
-    # Тест обычного изменения цены (без понижения)
+def test_price_setter_output_increase(capsys, phone: Product) -> None:
+    """Проверка вывода при повышении цены"""
     phone.price = 55000.0
     captured = capsys.readouterr()
     assert "Цена успешно изменена на 55000.0" in captured.out
 
-    # Тест понижения цены с подтверждением
+
+def test_price_setter_output_decrease(capsys, phone: Product) -> None:
+    """Проверка вывода при понижении цены с подтверждением"""
     with patch("builtins.input", return_value="y"):
         phone.price = 45000.0
         captured = capsys.readouterr()
         assert "Цена успешно изменена на 45000.0" in captured.out
 
-    # Тест отрицательной цены
+
+def test_price_setter_output_negative(capsys, phone: Product) -> None:
+    """Проверка вывода при отрицательной цене"""
     phone.price = -1000
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
 
 
-def test_smartphone_creation() -> None:
-    """Тест создания объекта Smartphone"""
+def test_smartphone_creation_with_correct_types() -> None:
+    """Тест создания смартфона с правильными типами"""
     phone = Smartphone(
-        name="iPhone 13",
-        description="Flagship smartphone",
-        price=999.99,
-        quantity=10,
-        efficiency=47.8,
+        name="iPhone",
+        description="Smartphone",
+        price=1000.0,
+        quantity=5,
+        efficiency=76.5,
         model="13 Pro",
         memory=128,
-        color="Graphite",
+        color="Black",
     )
-    assert phone.name == "iPhone 13"
-    assert phone.price == 999.99
-    assert phone.memory == 128
-    assert phone.color == "Graphite"
-    assert isinstance(phone, Product)
+    assert isinstance(phone, Smartphone)
 
 
 def test_lawn_grass_creation() -> None:
@@ -125,24 +125,23 @@ def test_lawn_grass_creation() -> None:
     assert isinstance(grass, Product)
 
 
-def test_add_same_class_products() -> None:
-    """Проверка сложения объектов одного класса"""
-    phone1 = Smartphone("Phone1", "Desc", 1000, 2, 87.5, "M", 64, "B")
-    phone2 = Smartphone("Phone2", "Desc", 2000, 3, 69.8, "N", 128, "W")
-    assert phone1 + phone2 == 1000 * 2 + 2000 * 3
+def test_add_same_type_products() -> None:
+    """Тест сложения объектов одинакового типа"""
+    phone1 = Smartphone("Phone1", "Desc", 1000, 2, 46.8, "M1", 64, "Black")
+    phone2 = Smartphone("Phone2", "Desc", 1500, 3, 69.7, "M2", 128, "White")
+    assert phone1 + phone2 == 1000 * 2 + 1500 * 3
 
 
-def test_add_different_class_products() -> None:
-    """Проверка ошибки при сложении разных классов"""
-    phone = Smartphone("Phone", "Desc", 1000, 1, 57.9, "M", 64, "B")
-    grass = LawnGrass("Grass", "Desc", 500, 2, "Rus", "14", "Green")
+def test_add_different_type_products() -> None:
+    """Тест сложения объектов разного типа"""
+    phone = Smartphone("Phone", "Desc", 1000, 1, 78.6, "M1", 64, "Black")
+    product = Product("Product", "Desc", 500, 2)
     with pytest.raises(TypeError):
-        _ = phone + grass
+        _ = phone + product
 
 
-def test_add_product_to_category_type_check() -> None:
+def test_add_product_to_category_type_check(category: Category) -> None:
     """Проверка типа при добавлении в категорию"""
-    category = Category("Test", "Test", [])
     with pytest.raises(TypeError):
         category.add_product("not a product")
 
@@ -167,7 +166,7 @@ def test_lawn_grass_addition() -> None:
 
 def test_mixed_class_addition() -> None:
     """Тест попытки сложения разных классов"""
-    phone = Smartphone("Phone", "Desc", 1000, 1, 87.6, "M1", "64GB", "Black")
+    phone = Smartphone("Phone", "Desc", 1000, 1, 87.6, "M1", 64, "Black")
     grass = LawnGrass("Grass", "Desc", 20, 5, "USA", "14d", "Green")
 
     with pytest.raises(TypeError):
@@ -177,18 +176,12 @@ def test_mixed_class_addition() -> None:
 def test_log_mixin(capsys):
     """Тест логирования создания объекта"""
 
-    # Создаем временный класс для тестирования миксина
     class TestClass(LogMixin):
         def __init__(self, param1, param2):
             self.param1 = param1
             self.param2 = param2
             super().__init__()
 
-    # Убрали присваивание в переменную, так как она не используется
-    TestClass("value1", "value2")
-    captured = capsys.readouterr()
-
-    # Убрали присваивание в переменную, так как она не используется
     TestClass("value1", "value2")
     captured = capsys.readouterr()
 

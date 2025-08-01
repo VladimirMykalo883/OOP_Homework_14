@@ -1,5 +1,7 @@
 """ДЗ_16_1"""
 
+# from typing import List
+
 from src.base import BaseClass
 from src.products import Product
 
@@ -36,7 +38,8 @@ class Category(BaseClass):
             description: Описание категории
             products: Список продуктов в категории
         """
-        self.name = name
+        super().__init__()  # сначала вызываем инициализацию базового класса.
+        self.name = name  # Затем присваиваем значения
         self.description = description
         self.__products = products
 
@@ -44,7 +47,7 @@ class Category(BaseClass):
         Category.category_count += 1
         Category.product_count += len(products)
 
-    def add_product(self, product: Product) -> None:
+    def add_product(self, product: "Product") -> None:
         """Добавляет продукт в категорию."""
         if not isinstance(product, Product):
             raise TypeError("Можно добавлять только объекты Product или его наследников")

@@ -97,8 +97,8 @@ class Product(LogMixin):
         return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: "Product") -> float:
-        if not isinstance(other, Product):
-            raise TypeError("Можно складывать только объекты Product")
+        if type(self) is not type(other):  # Исправлено на is not вместо !=
+            raise TypeError("Можно складывать только объекты одинаковых классов")
         return (self.price * self.quantity) + (other.price * other.quantity)
 
 
@@ -122,11 +122,6 @@ class Smartphone(Product):
         self.color = color
         super().__init__(name, description, price, quantity)
 
-    def __add__(self, other: "Smartphone") -> float:
-        if not isinstance(other, Smartphone):
-            raise TypeError("Можно складывать только объекты Smartphone")
-        return super().__add__(other)
-
 
 class LawnGrass(Product):
     """Класс для представления газонной травы"""
@@ -145,8 +140,3 @@ class LawnGrass(Product):
         self.germination_period = germination_period
         self.color = color
         super().__init__(name, description, price, quantity)
-
-    def __add__(self, other: "LawnGrass") -> float:
-        if not isinstance(other, LawnGrass):
-            raise TypeError("Можно складывать только объекты LawnGrass")
-        return super().__add__(other)

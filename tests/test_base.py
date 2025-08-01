@@ -6,9 +6,9 @@ from src.order import Order
 
 
 def test_base_class_abstract() -> None:
-    """Тест, что BaseClass действительно абстрактный"""
+    """Тест, что BaseClass нельзя инстанцировать"""
     with pytest.raises(TypeError):
-        BaseClass()
+        BaseClass()  # Ожидаем ошибку для абстрактного класса
 
 
 def test_category_inherits_base() -> None:

@@ -1,7 +1,9 @@
 """ДЗ 16_1"""
 
+import pytest
+
 from src.category import Category
-from src.products import LawnGrass, Smartphone
+from src.products import LawnGrass, Product, Smartphone
 
 #
 # if __name__ == "__main__":
@@ -66,7 +68,11 @@ from src.products import LawnGrass, Smartphone
 #    print(product2 + product3)
 
 if __name__ == "__main__":
-
+    if __name__ == "__main__":
+        product = Product("Example", "Desc", 100.0, 5)
+        category = Category("Test", "Test", [])
+        category.add_product(product)  # Теперь передаем Product, а не строку
+        print(str(category))
     smartphone1 = Smartphone(
         "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5, "S23 Ultra", 256, "Серый"
     )
@@ -142,7 +148,9 @@ if __name__ == "__main__":
     print(Category.product_count)
 
     try:
-        category_smartphones.add_product("Not a product")
+        with pytest.raises(TypeError):
+            category_smartphones.add_product("Not a product")
+    #        category_smartphones.add_product("Not a product")
     except TypeError:
         print("Возникла ошибка TypeError при добавлении не продукта")
     else:
