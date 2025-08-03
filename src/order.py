@@ -1,3 +1,4 @@
+'''ДЗ_16_2'''
 from src.base import BaseClass
 from src.products import Product
 

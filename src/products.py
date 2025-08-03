@@ -1,4 +1,4 @@
-"""ДЗ 16_1"""
+"""ДЗ 16_2"""
 
 from src.base import LogMixin
 

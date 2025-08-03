@@ -1,3 +1,4 @@
+'''ДЗ_16_2'''
 from abc import ABC, abstractmethod
 from typing import Any
 
