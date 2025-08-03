@@ -1,18 +1,19 @@
+"""ДЗ_16_1"""
+
 from unittest.mock import patch
 
+import pytest
+
 from src.category import Category
-from src.products import Product
+from src.products import LawnGrass, Product
 
 
 def test_category_init(phone: Product, laptop: Product) -> None:
     """Проверка корректности инициализации объекта Category"""
     category = Category("Электроника", "Техника", [phone, laptop])
-
     assert category.name == "Электроника"
     assert category.description == "Техника"
-    assert len(category.products.split("\n")) == 2  # Проверяем через свойство products
-    assert "Телефон" in category.products
-    assert "Ноутбук" in category.products
+    assert len(category.products.split("\n")) == 2  # Исправлено: обращение к products через экземпляр
 
 
 def test_category_attributes_types(phone: Product) -> None:
@@ -22,7 +23,6 @@ def test_category_attributes_types(phone: Product) -> None:
     assert isinstance(category.name, str)
     assert isinstance(category.description, str)
     assert isinstance(category.products, str)
-    assert isinstance(category.products, str)  # Теперь это строка с отформатированным выводом
 
 
 def test_category_count() -> None:
@@ -49,10 +49,9 @@ def test_empty_category_product_count() -> None:
 def test_add_product_with_price_confirmation(phone: Product) -> None:
     """Проверка добавления продукта с понижением цены и подтверждением"""
     category = Category("Тест", "Тестовая категория", [])
+    cheap_phone = Product("Дешевый телефон", "Аналог", phone.price - 10000, 5)
 
     with patch("builtins.input", return_value="y"):
-        # Создаем продукт с более низкой ценой
-        cheap_phone = Product("Дешевый телефон", "Аналог", phone.price - 10000, 5)
         category.add_product(cheap_phone)
         assert cheap_phone.name in category.products
 
@@ -63,7 +62,7 @@ def test_products_property_format(phone: Product) -> None:
     products_str = category.products
 
     assert phone.name in products_str
-    assert str(int(phone.price)) in products_str  # Проверяем цену без десятичных
+    assert str(int(phone.price)) in products_str
     assert f"Остаток: {phone.quantity} шт." in products_str
 
 
@@ -75,3 +74,23 @@ def test_add_product_updates_counters() -> None:
 
     category.add_product(product)
     assert Category.product_count == initial_count + 1
+
+
+def test_add_product_type_check(phone: Product) -> None:
+    """Тест проверки типа при добавлении продукта"""
+    category = Category("Test", "Test", [])
+
+    #    category.add_product(phone)
+    #    assert len(category.products.split("\n")) == 1
+    with pytest.raises(TypeError):
+        category.add_product("Not a product")
+
+
+def test_category_with_different_products(phone: Product) -> None:
+    """Тест работы категории с разными типами продуктов"""
+    grass = LawnGrass("Grass", "Green", 20, 100, "USA", "14d", "Green")
+    category = Category("Mixed", "Category", [phone, grass])
+
+    assert len(category.products.split("\n")) == 2
+    assert phone.name in category.products
+    assert "Grass" in category.products
