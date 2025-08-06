@@ -1,9 +1,9 @@
 """ДЗ 16_2"""
 
-from src.base import LogMixin
+from src.base import BaseProduct, LogMixin
 
 
-class Product(LogMixin):
+class Product(BaseProduct, LogMixin):
     """Класс продукт представление продуктов.
     Атрибуты:
         name (str): Название продукта
@@ -53,7 +53,8 @@ class Product(LogMixin):
             print(f"Цена успешно изменена на {new_price}")
 
     @classmethod
-    def new_product(cls, product_data: dict, products: list["Product"] | None = None) -> "Product":
+    def new_product(cls: type["Product"], product_data: dict, products: list["Product"] | None = None) -> "Product":
+#    def new_product(cls, product_data: dict, products: list["Product"] | None = None) -> "Product":
         """
         Создает новый объект класса Product из словаря с данными.
         Если товар с таким именем уже существует:

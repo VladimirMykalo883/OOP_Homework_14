@@ -1,12 +1,14 @@
-'''ДЗ_16_2'''
-from src.base import BaseClass
+"""ДЗ_16_2"""
+
+from src.base import BaseShopEntity
 from src.products import Product
 
 
-class Order(BaseClass):
+class Order(BaseShopEntity):
     """Класс для представления заказа"""
 
     def __init__(self, product: Product, quantity: int) -> None:
+#       super().__init__()
         if not isinstance(product, Product):
             raise TypeError("Можно заказывать только продукты")
         if quantity < 0 or product.price < 0:
@@ -14,7 +16,6 @@ class Order(BaseClass):
         self.product = product
         self.quantity = quantity
         self.total_cost = product.price * quantity
-        super().__init__()
 
     def __str__(self) -> str:
         return f"Заказ: {self.product.name}, " f"Количество: {self.quantity}, " f"Итого: {self.total_cost} руб."

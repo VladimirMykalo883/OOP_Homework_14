@@ -1,9 +1,10 @@
 """ДЗ_16_2"""
-from src.base import BaseClass
+
+from src.base import BaseShopEntity
 from src.products import Product
 
 
-class Category(BaseClass):
+class Category(BaseShopEntity):
     """Класс категории товаров"""
 
     """Класс для представления категории товаров.

@@ -1,4 +1,4 @@
-"""ДЗ_16_1"""
+"""ДЗ_16_2"""
 
 from unittest.mock import patch
 
@@ -80,10 +80,8 @@ def test_add_product_type_check(phone: Product) -> None:
     """Тест проверки типа при добавлении продукта"""
     category = Category("Test", "Test", [])
 
-    #    category.add_product(phone)
-    #    assert len(category.products.split("\n")) == 1
-    with pytest.raises(TypeError):
-        category.add_product("Not a product")
+    with pytest.raises(TypeError, match="Можно добавлять только объекты Product или его наследников"):
+        category.add_product("not a product")  # type: ignore
 
 
 def test_category_with_different_products(phone: Product) -> None:

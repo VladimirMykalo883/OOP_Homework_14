@@ -1,10 +1,9 @@
-"""ДЗ_16_1"""
-
-# import sys
-# from io import StringIO
+"""ДЗ_16_2"""
+from typing import Any
 from unittest.mock import patch
 
 import pytest
+from _pytest.capture import CaptureFixture
 
 from src.base import LogMixin
 from src.category import Category
@@ -70,14 +69,14 @@ def test_zero_price_rejection(phone: Product) -> None:
     assert phone.price == original_price
 
 
-def test_price_setter_output_increase(capsys, phone: Product) -> None:
+def test_price_setter_output_increase(capsys: CaptureFixture, phone: Product) -> None:
     """Проверка вывода при повышении цены"""
     phone.price = 55000.0
     captured = capsys.readouterr()
     assert "Цена успешно изменена на 55000.0" in captured.out
 
 
-def test_price_setter_output_decrease(capsys, phone: Product) -> None:
+def test_price_setter_output_decrease(capsys: CaptureFixture, phone: Product) -> None:
     """Проверка вывода при понижении цены с подтверждением"""
     with patch("builtins.input", return_value="y"):
         phone.price = 45000.0
@@ -85,7 +84,7 @@ def test_price_setter_output_decrease(capsys, phone: Product) -> None:
         assert "Цена успешно изменена на 45000.0" in captured.out
 
 
-def test_price_setter_output_negative(capsys, phone: Product) -> None:
+def test_price_setter_output_negative(capsys: CaptureFixture, phone: Product) -> None:
     """Проверка вывода при отрицательной цене"""
     phone.price = -1000
     captured = capsys.readouterr()
@@ -142,8 +141,8 @@ def test_add_different_type_products() -> None:
 
 def test_add_product_to_category_type_check(category: Category) -> None:
     """Проверка типа при добавлении в категорию"""
-    with pytest.raises(TypeError):
-        category.add_product("not a product")
+    with pytest.raises(TypeError, match="Можно добавлять только объекты Product или его наследников"):
+        category.add_product(123)  # type: ignore
 
 
 def test_smartphone_addition() -> None:
@@ -173,11 +172,11 @@ def test_mixed_class_addition() -> None:
         _ = phone + grass
 
 
-def test_log_mixin(capsys):
+def test_log_mixin(capsys: CaptureFixture) -> None:
     """Тест логирования создания объекта"""
 
     class TestClass(LogMixin):
-        def __init__(self, param1, param2):
+        def __init__(self, param1: Any, param2: Any):
             self.param1 = param1
             self.param2 = param2
             super().__init__()

@@ -1,3 +1,5 @@
+"""ДЗ_16_2"""
+
 import pytest
 
 from src.order import Order
@@ -23,16 +25,16 @@ def test_order_str(sample_product: Product) -> None:  # Добавлена ан�
 
 def test_order_with_non_product() -> None:
     """Тест создания заказа с не-продуктом"""
-    with pytest.raises(TypeError):
-        Order("Not a product", 1)
+    with pytest.raises(TypeError, match="Можно заказывать только продукты"):
+        Order("not a product", 1)  # type: ignore
 
 
-def test_order_negative_quantity(sample_product) -> None:
+def test_order_negative_quantity(sample_product: Product) -> None:
     """Тест создания заказа с отрицательным количеством"""
     with pytest.raises(ValueError):
         Order(sample_product, -1)
 
 
 def test_order_with_invalid_product() -> None:
-    with pytest.raises(TypeError):
-        Order("invalid product", 1)  # Проверка TypeError для строки
+    with pytest.raises(TypeError, match="Можно заказывать только продукты"):
+        Order({"invalid": "product"}, 1)  # type: ignore
