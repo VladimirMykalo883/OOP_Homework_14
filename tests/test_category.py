@@ -7,8 +7,6 @@ import pytest
 from src.category import Category
 from src.products import LawnGrass, Product
 
-# from tests.conftest import phone, laptop
-
 
 def test_category_init(phone: Product, laptop: Product) -> None:
     """Проверка корректности инициализации объекта Category"""

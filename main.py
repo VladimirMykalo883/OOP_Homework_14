@@ -6,11 +6,8 @@ from src.products import Product
 if __name__ == "__main__":
     try:
         product_invalid = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
-    except ValueError:
-        print(
-            "Возникла ошибка ValueError прерывающая работу программы при попытке"
-            "добавить продукт с нулевым количеством"
-        )
+    except Exception as e:
+        print(f"Возникла ошибка {type(e).__name__} прерывающая работу программы {str(e)}")
     else:
         print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
 
