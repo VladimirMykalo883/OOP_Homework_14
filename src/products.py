@@ -1,4 +1,4 @@
-"""ДЗ 16_2"""
+"""ДЗ 17_1"""
 
 from src.base import BaseProduct, LogMixin
 
@@ -27,6 +27,11 @@ class Product(BaseProduct, LogMixin):
             price: Цена продукта
             quantity: Количество в наличии
         """
+
+        super().__init__()
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         self.name = name
         self.description = description
         self.__price = price
@@ -54,7 +59,6 @@ class Product(BaseProduct, LogMixin):
 
     @classmethod
     def new_product(cls: type["Product"], product_data: dict, products: list["Product"] | None = None) -> "Product":
-#    def new_product(cls, product_data: dict, products: list["Product"] | None = None) -> "Product":
         """
         Создает новый объект класса Product из словаря с данными.
         Если товар с таким именем уже существует:

@@ -1,4 +1,5 @@
-"""ДЗ_16_2"""
+"""ДЗ_17_1"""
+
 from typing import Any
 from unittest.mock import patch
 
@@ -187,3 +188,9 @@ def test_log_mixin(capsys: CaptureFixture) -> None:
     assert "Создан объект TestClass" in captured.out
     assert "param1=value1" in captured.out
     assert "param2=value2" in captured.out
+
+
+def test_product_zero_quantity_raises_error() -> None:
+    """Тест, что создание продукта с нулевым количеством вызывает ошибку"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Test", "Desc", 100.0, 0)

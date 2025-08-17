@@ -1,4 +1,4 @@
-"""ДЗ_16_2"""
+"""ДЗ_17_1"""
 
 from src.base import BaseShopEntity
 from src.category import Category

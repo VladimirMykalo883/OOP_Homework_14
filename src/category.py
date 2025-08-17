@@ -1,4 +1,4 @@
-"""ДЗ_16_2"""
+"""ДЗ_17_1"""
 
 from src.base import BaseShopEntity
 from src.products import Product
@@ -37,6 +37,7 @@ class Category(BaseShopEntity):
             products: Список продуктов в категории
         """
         super().__init__()  # сначала вызываем инициализацию базового класса.
+        self._Category__products = None
         self.name = name  # Затем присваиваем значения
         self.description = description
         self.__products = products
@@ -63,3 +64,10 @@ class Category(BaseShopEntity):
     def __str__(self) -> str:
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
+
+    def middle_price(self) -> float:
+        """Возвращает среднюю цену продуктов в категории"""
+        if not self._Category__products:  # Если список товаров пуст
+            return 0.0
+        total = sum(product.price for product in self._Category__products)
+        return total / len(self._Category__products)
