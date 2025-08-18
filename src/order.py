@@ -8,7 +8,6 @@ class Order(BaseShopEntity):
     """Класс для представления заказа"""
 
     def __init__(self, product: Product, quantity: int) -> None:
-#       super().__init__()
         if not isinstance(product, Product):
             raise TypeError("Можно заказывать только продукты")
         if quantity < 0 or product.price < 0:

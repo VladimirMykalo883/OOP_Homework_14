@@ -1,4 +1,4 @@
-"""ДЗ_16_2"""
+"""ДЗ_17_1"""
 
 from abc import ABC, abstractmethod
 from typing import Any
@@ -20,10 +20,10 @@ class LogMixin:
 class BaseProduct(ABC):
     """Абстрактный базовый класс для Category и Order"""
 
-#    @abstractmethod
-#    def __init__(self, *args: Any, **kwargs: Any) -> None:
-#        """Базовый инициализатор для сущностей магазина"""
-#        pass
+    #    @abstractmethod
+    #    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    #        """Базовый инициализатор для сущностей магазина"""
+    #        pass
 
     @abstractmethod
     def __str__(self) -> str:
@@ -32,10 +32,13 @@ class BaseProduct(ABC):
 
 
 class BaseShopEntity(ABC):
-    # @abstractmethod
-    # def __init__(self) -> None:
-    #     pass
 
     @abstractmethod
     def __str__(self) -> str:
         pass
+
+
+class ZeroQuantityError(Exception):
+    """Исключение для товаров с нулевым количеством"""
+
+    pass

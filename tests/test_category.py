@@ -1,4 +1,4 @@
-"""ДЗ_16_2"""
+"""ДЗ_17_1"""
 
 from unittest.mock import patch
 
@@ -92,3 +92,17 @@ def test_category_with_different_products(phone: Product) -> None:
     assert len(category.products.split("\n")) == 2
     assert phone.name in category.products
     assert "Grass" in category.products
+
+
+def test_category_middle_price_with_products(phone: Product, laptop: Product) -> None:
+    category = Category("Тест", "Тест", [phone, laptop])
+    print(f"Phone price: {phone.price}")  # Должно быть 50000.0
+    print(f"Laptop price: {laptop.price}")  # Должно быть 100000.0
+    print(f"Calculated avg: {category.middle_price}")  # Должно быть 75000.0
+    assert category.middle_price() == 75000.0
+
+
+def test_category_middle_price_empty() -> None:
+    category = Category("Тест", "Тест", [])
+    print(f"Empty category avg: {category.middle_price}")  # Должно быть 0.0
+    assert category.middle_price() == 0.0
